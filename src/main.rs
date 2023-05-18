@@ -7,6 +7,7 @@ use clap::Parser;
 use std::fs::File;
 use std::io::ErrorKind;
 use std::path;
+use std::process::exit;
 
 #[derive(Debug, Parser)]
 struct Args {
@@ -43,6 +44,13 @@ fn main() {
         }
     }
 
-    let mut head_op = HeadOp::new(filenames, args.lines, args.bytes);
-    println!("{}", head_op.head().unwrap());
+    if filenames.is_empty() {
+        println!("head-rs: No files to read");
+        exit(1);
+    }
+
+    for filename in filenames {
+        let mut head_op = HeadOp::new(filename, args.lines, args.bytes);
+        println!("{}", head_op.head().unwrap());
+    }
 }
