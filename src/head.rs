@@ -2,6 +2,8 @@ use std::fs;
 use std::path;
 use std::process::exit;
 
+use crate::colors::{colorize, Color};
+
 pub struct HeadOp {
     pub file: path::PathBuf,
     lines: Option<usize>,
@@ -16,7 +18,13 @@ impl HeadOp {
     pub fn head(&mut self) -> Option<String> {
         match (self.lines, self.bytes) {
             (Some(_), Some(_)) => {
-                println!("head-rs: can\'t combine line and byte counts");
+                println!(
+                    "{}",
+                    colorize(
+                        "head-rs: can\'t combine line and byte counts",
+                        Color::Red
+                    )
+                );
                 exit(1)
             }
             (None, None) => self.lines = Some(10),
