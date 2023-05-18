@@ -47,3 +47,32 @@ impl HeadOp {
         None
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_head_lines() {
+        let mut head = HeadOp::new(path::PathBuf::from("test.txt"), Some(2), None);
+        assert_eq!(
+            head.head().unwrap(),
+            "Never Gonna Give You Up - Rick Astley\n"
+        );
+    }
+
+    #[test]
+    fn test_head_bytes() {
+        let mut head = HeadOp::new(path::PathBuf::from("test.txt"), None, Some(5));
+        assert_eq!(head.head().unwrap(), "Never");
+    }
+
+    #[test]
+    fn test_head_default() {
+        let mut head = HeadOp::new(path::PathBuf::from("test.txt"), None, None);
+        assert_eq!(
+            head.head().unwrap(),
+            "Never Gonna Give You Up - Rick Astley\n\nI'm no stranger to love\nYou know the rules and so do I\nA full commitment's what I'm thinking of\nYou wouldn't get this from any other guy\n\nI just wanna tell you how I'm feeling\nGotta make you understand\n"
+        );
+    }
+}
