@@ -9,10 +9,10 @@ struct Args {
     filenames: Vec<path::PathBuf>,
 
     #[clap(short = 'n', long)]
-    lines: Option<u32>,
+    lines: Option<usize>,
 
     #[clap(short = 'c', long)]
-    bytes: Option<u32>,
+    bytes: Option<usize>
 }
 
 fn main() {
