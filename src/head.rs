@@ -3,7 +3,7 @@ use std::path;
 use std::process::exit;
 
 pub struct HeadOp {
-    file: path::PathBuf,
+    pub file: path::PathBuf,
     lines: Option<usize>,
     bytes: Option<usize>,
 }

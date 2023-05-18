@@ -1,3 +1,4 @@
+mod colors;
 mod head;
 
 use crate::head::HeadOp;
@@ -49,8 +50,33 @@ fn main() {
         exit(1);
     }
 
+    let mut prev_color = colors::pick_rand_color();
+
     for filename in filenames {
         let mut head_op = HeadOp::new(filename, args.lines, args.bytes);
-        println!("{}", head_op.head().unwrap());
+        let head = head_op.head().unwrap();
+
+        let mut color = colors::pick_rand_color();
+
+        if prev_color == color {
+            color = colors::pick_rand_color();
+        }
+
+        println!(
+            "{}",
+            colors::colorize(
+                &format!("\n==> {} <==", head_op.file.to_str().unwrap()),
+                color.0.clone()
+            )
+        );
+
+        println!("{}", 
+            colors::colorize(
+                head.as_ref(),
+                color.1.clone()
+            )
+        );
+
+        prev_color = color;
     }
 }
