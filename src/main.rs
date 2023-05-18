@@ -52,8 +52,8 @@ fn main() {
 
     let mut prev_color = colors::pick_rand_color();
 
-    for filename in filenames {
-        let mut head_op = HeadOp::new(filename, args.lines, args.bytes);
+    for filename in &filenames {
+        let mut head_op = HeadOp::new(filename.to_path_buf(), args.lines, args.bytes);
         let head = head_op.head().unwrap();
 
         let mut color = colors::pick_rand_color();
@@ -62,20 +62,17 @@ fn main() {
             color = colors::pick_rand_color();
         }
 
-        println!(
-            "{}",
-            colors::colorize(
-                &format!("\n==> {} <==", head_op.file.to_str().unwrap()),
-                color.0.clone()
-            )
-        );
+        if filenames.len() > 1 {
+            println!(
+                "{}",
+                colors::colorize(
+                    &format!("\n==> {} <==", head_op.file.to_str().unwrap()),
+                    color.0.clone()
+                )
+            );
+        }
 
-        println!("{}", 
-            colors::colorize(
-                head.as_ref(),
-                color.1.clone()
-            )
-        );
+        println!("{}", colors::colorize(head.as_ref(), color.1.clone()));
 
         prev_color = color;
     }
