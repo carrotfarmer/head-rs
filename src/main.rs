@@ -55,6 +55,14 @@ impl HeadOp {
                     .collect::<Vec<&str>>()
                     .join("\n"));
             }
+
+            if let Some(_) = self.bytes {
+                return Some(fs::read_to_string(file)
+                    .unwrap()
+                    .chars()
+                    .take(self.bytes.unwrap())
+                    .collect::<String>());
+            }
         }
 
         None
